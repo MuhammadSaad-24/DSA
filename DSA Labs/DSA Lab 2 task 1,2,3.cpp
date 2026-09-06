@@ -85,7 +85,7 @@ bool LinkList<Type>::InsertBefore(const Type v1, const Type v2)
 		temp = temp->next;
 	}
 
-	if (head == nullptr)
+	if (IsEmpty())
 	{
 		head = new Node(v1);
 		return true;
@@ -110,7 +110,7 @@ void LinkList<Type>::InsertAtEnd(const Type value)
 		temp = temp->next;
 	}
 
-	if (head != nullptr)
+	if (!IsEmpty())
 	{
 		previous->next = new Node(value);
 
