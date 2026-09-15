@@ -128,7 +128,7 @@ void DLL<Type>::DisplayNextPrevious(const Type &key) const
 
 template <typename Type> void DLL<Type>::Sort()
 {
-   Node *Temp = Head;
+   Node *Temp = Head;//the time complexity will be n^2 as the loops will run even if the list is sorted  
    while (Temp != Tail)
    {
       Node *Temp2 = Temp;
@@ -249,7 +249,7 @@ void DLL<Type>::Union(DLL<Type>& other)
 
 		if(l1->Data == l2->Data)
 		{
-			l1 = l1->Next;
+			//l1 = l1->Next;
             
             other.Head = l2->Next;
             
