@@ -77,6 +77,7 @@ public:
 template <typename Type>
 CL<Type>::ListIterator::ListIterator()
 {
+    
     Iptr = nullptr;
 }
 
@@ -89,6 +90,7 @@ CL<Type>::ListIterator::ListIterator(Node* other)
 template <typename Type>
 typename CL<Type>::ListIterator CL<Type>::ListIterator::operator++()
 {
+    if(Iptr)
     Iptr = Iptr->Next;
     return Iptr;
 }
@@ -98,7 +100,9 @@ template <typename Type>
 typename CL<Type>::ListIterator CL<Type>::ListIterator::operator++(int)
 {
     Node* Old = Iptr;
-    Iptr = Iptr->Next;
+
+    ++(*this);
+
     return Old;
 }
 
@@ -195,15 +199,15 @@ void CL<Type>::InsertBefore(const Type& data,const Type& key)
 
     while(it != tail)
     {
-        if(it.Iptr->Next->Data == key)
+        if(it.Iptr->Next->data == key)
         {
             Node* temp = it.Iptr;
             temp->Next = new Node(data,temp->Next);
+            size++;
         }
 
         it++;
     }
-    size++;
 
 }
 
@@ -242,11 +246,12 @@ void CL<Type>::DeleteAfter(Iterator& it)
     if(temp->Next != nullptr)
         temp->Next = temp->Next->Next;
     
-    if(temp->Next == tail)
+    if(todelete == tail)
         tail = it.Iptr;
 
     delete todelete;
-    it++;
+    todelete = nullptr;
+
     size--;
 
 }
@@ -254,27 +259,25 @@ void CL<Type>::DeleteAfter(Iterator& it)
 template <typename Type>
 void CL<Type>::RemoveDuplicates()
 {
-    Iterator innerit = tail->Next;
+    Iterator it = tail->Next;
 
     do
     {
-        Iterator oit = innerit;
-        oit++;
+        Iterator oit = it.Iptr;
         do
         {
-            if(oit.Iptr->Next->data == *innerit)
+            if(oit.Iptr->Next->data == *it)
             {
                 DeleteAfter(oit);
-                size--;
-                Print();
             }
 
             oit++;
 
         }while(oit != tail->Next);
 
-        innerit++;
-    }while(innerit != tail->Next);
+        it++;
+
+    }while(it != tail->Next);
 }
 
 template <typename Type>
@@ -293,14 +296,12 @@ void CL<Type>::SplitList(CL<Type>& l1,CL<Type>& l2)
         l1.InsertAtEnd(*it);
         it++;
         count++;
-        l1.size++;
     }
 
     do
     {
         l2.InsertAtEnd(*it);
         it++;
-        l2.size++;
 
     }while(it != tail->Next);
 
@@ -329,7 +330,7 @@ typename CL<Type>::Iterator CL<Type>::Find(const Type& key)
 
     do
     {
-        if(it.Iptr->Data == key)
+        if(it.Iptr->data == key)
             return it;
         it++;
 

@@ -1,0 +1,13 @@
+{
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.inlineSuggest.edits.allowCodeShifting": "never",
+    "editor.inlineSuggest.edits.renderSideBySide": "never",
+    "editor.inlineSuggest.enabled": false,
+    "editor.inlineSuggest.showToolbar": "never",
+    "editor.inlineSuggest.syntaxHighlightingEnabled": false,
+    "editor.snippetSuggestions": "none",
+    "editor.suggest.selectionMode": "never",
+    "editor.suggest.showInlineDetails": false,
+    "editor.inlineSuggest.experimental.emptyResponseInformation": false,
+    "editor.inlineSuggest.edits.showLongDistanceHint": false
+}
