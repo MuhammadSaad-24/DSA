@@ -1,4 +1,5 @@
 #include <iostream>
+
 using namespace std;
 
 template <typename Type> class DLL
@@ -775,8 +776,7 @@ typename DLL<Type>::Iterator DLL<Type>::ListIterator::operator=(const ListIterat
 template <typename Type> 
 Type& DLL<Type>::ListIterator::operator*()
 {
-    if(Iptr)
-        return Iptr->Data;   
+    return Iptr->Data;   
 }
 
 template <typename Type> 
