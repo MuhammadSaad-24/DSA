@@ -17,7 +17,7 @@ public:
     DLL(DLL<Type>&);
     void PlaceNode(Node*,Node*);
     int CountNodes() const;
-
+    void ReorderList();
     Iterator Begin();
     Iterator End();
 
@@ -46,7 +46,7 @@ public:
     friend ostream& operator<<(ostream&, const DLL<T>&);
 
     void MergeLists(DLL<Type>&);
-    DLL<Type> ReverseList(Iterator&);
+    DLL<Type> ReverseList();
     bool IsEqual(const DLL<Type>&) const;
     DLL<Type> Union(DLL<Type>&);
     DLL<Type> Intersection(const DLL<Type>&);
@@ -271,9 +271,32 @@ DLL<Type>::DLL(DLL<Type>& other)
 template <typename Type> 
 int DLL<Type>::CountNodes() const { return size; }
 
+
+template <typename Type> 
+void DLL<Type>::ReorderList()
+{
+    if(!Head)
+        return;
+    for(Iterator fit = Head->Next;fit != Tail && fit != nullptr;fit++)
+    {    
+        Node* key = fit.GetNode();
+        
+        Tail = Tail->Previous;
+        PlaceNode(key,Tail->Next);
+        Tail->Next = nullptr;
+        
+    }
+}
+
 template <typename Type> 
 void DLL<Type>::PlaceNode(Node* key,Node* other)
 {
+    if(key == other)
+        return;
+
+    if(key->Previous == other)
+        return;
+
     other->Next = key;
     other->Previous = key->Previous;
     
@@ -539,10 +562,10 @@ void DLL<Type>::MergeLists(DLL<Type>& other)
 }
 
 template <typename Type> 
-DLL<Type> DLL<Type>::ReverseList(Iterator&)
+DLL<Type> DLL<Type>::ReverseList()
 {
     DLL<Type> l;
-    Node* temp = nullptr,previous = nullptr;
+    Node* temp = nullptr,*previous = nullptr;
     
     l.size = size;
     
@@ -709,5 +732,21 @@ int main()
 
     DLL<int>::Iterator it = l1.Find(12);
     if(!it.IsNull())
-        cout << *it << endl;   
+        cout << *it << endl;  
+        
+    DLL<int> l4;
+    l4.AddInEnd(1);
+    l4.AddInEnd(2);
+    l4.AddInEnd(3);
+    l4.AddInEnd(4);
+    l4.AddInEnd(5);
+    l4.AddInEnd(6);
+
+    l4.ReorderList();
+    cout << "Reorder List::\n";
+    cout << l4;
+
+    DLL<int> Reverse = l4.ReverseList();
+    cout << "Reverse List::\n";
+    cout << Reverse;
 }

@@ -243,11 +243,13 @@ void CL<Type>::DeleteAfter(Iterator& it)
     Node* temp = it.Iptr;
     Node* todelete = temp->Next;
 
-    if(temp->Next != nullptr)
-        temp->Next = temp->Next->Next;
+    temp->Next = temp->Next->Next;
     
     if(todelete == tail)
         tail = it.Iptr;
+
+    if(tail == tail->Next)
+        tail = nullptr;
 
     delete todelete;
     todelete = nullptr;
@@ -260,18 +262,20 @@ template <typename Type>
 void CL<Type>::RemoveDuplicates()
 {
     Iterator it = tail->Next;
-
     do
     {
         Iterator oit = it.Iptr;
         do
         {
+
             if(oit.Iptr->Next->data == *it)
             {
                 DeleteAfter(oit);
             }
-
-            oit++;
+            else
+            {
+                oit++;
+            }
 
         }while(oit != tail->Next);
 
@@ -291,7 +295,11 @@ void CL<Type>::SplitList(CL<Type>& l1,CL<Type>& l2)
 {
     Iterator it = tail->Next;
     int count = 1;
-    while(count < size / 2)
+
+    if(l1.size % 2 == 1)
+        count = 0;
+    
+    while(count <= size / 2)
     {
         l1.InsertAtEnd(*it);
         it++;
@@ -364,10 +372,11 @@ int main()
     l1.InsertAtEnd(3);
     l1.InsertAtEnd(4);
     l1.InsertAtEnd(5);
+    l1.InsertAtEnd(6);
 
     l1.Print();
 
-    l2.InsertAtEnd(10);
+    l2.InsertAtEnd(5);
     l2.InsertAtStart(9);
     l2.InsertAtStart(8);
     l2.InsertAtStart(7);
@@ -376,7 +385,7 @@ int main()
 
     l2.Print();
 
-    cout << "Rotate ::\n";
+    cout << "Rotate 3 Units::\n";
     l1.Rotate(3);
     l1.Print();
 
